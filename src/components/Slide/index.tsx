@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   Container,
@@ -64,6 +64,22 @@ const Slide: React.FC<SlideProps> = ({ companies, cardsPerPage }) => {
     setCurrentPage((nextIndex) => nextIndex + 1);
     return;
   };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "ArrowLeft") {
+      handlePrevClick();
+    } else if (event.key === "ArrowRight") {
+      handleNextClick();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown]);
 
   if (totalCards <= 0)
     return <NotFoundSlide>no results for this type of search</NotFoundSlide>;
