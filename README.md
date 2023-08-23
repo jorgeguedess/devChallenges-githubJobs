@@ -70,5 +70,5 @@ $ npm run dev
 
 ## Contact
 
-- GitHub [@Jorge-Guedes](https://github.com/Jorge-Guedes)
+- GitHub [@Jorge-Guedes](https://github.com/jorgeguedess)
 - Linkedin [Jorge Guedes](https://www.linkedin.com/in/jorge-guedes)
