@@ -57,3 +57,8 @@ export const Icon = styled.div`
     stroke: var(--text-3);
   }
 `;
+
+export const NotFoundSlide = styled.p`
+  color: red;
+  margin-top: 3rem;
+`;

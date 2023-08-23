@@ -1,10 +1,17 @@
 import React from "react";
 
-import { Container, ButtonContainer, Button, Icon } from "./styles";
+import {
+  Container,
+  ButtonContainer,
+  Button,
+  Icon,
+  NotFoundSlide,
+} from "./styles";
 
 import { GrFormNext, GrFormPrevious } from "../../styles/Icons";
 import { useJobs } from "../../context/JobsContext";
 import { IJob } from "../../hooks/useFetch";
+import useResize from "../../hooks/useResize";
 
 type SlideProps = {
   companies: IJob[];
@@ -13,10 +20,11 @@ type SlideProps = {
 
 const Slide: React.FC<SlideProps> = ({ companies, cardsPerPage }) => {
   const { currentPage, setCurrentPage } = useJobs();
+  const { screenWidth } = useResize();
 
   const totalCards = companies.reduce((total) => total + 1, 0);
   const totalPages = Math.ceil(totalCards / cardsPerPage) - 1;
-  const visiblePageButtons = 5;
+  const visiblePageButtons = screenWidth > 400 ? 5 : screenWidth > 260 ? 3 : 2;
 
   const renderPageButtons = () => {
     const pageButtons = [];
@@ -28,7 +36,7 @@ const Slide: React.FC<SlideProps> = ({ companies, cardsPerPage }) => {
     const endPage = Math.min(totalPages, startPage + visiblePageButtons - 1);
 
     if (endPage - startPage < visiblePageButtons - 1) {
-      startPage = Math.max(1, endPage - visiblePageButtons + 1);
+      startPage = Math.max(0, endPage - visiblePageButtons + 1);
     }
 
     for (let indice = startPage; indice <= endPage; indice++) {
@@ -57,6 +65,8 @@ const Slide: React.FC<SlideProps> = ({ companies, cardsPerPage }) => {
     return;
   };
 
+  if (totalCards <= 0)
+    return <NotFoundSlide>no results for this type of search</NotFoundSlide>;
   return (
     <Container>
       <ButtonContainer>
