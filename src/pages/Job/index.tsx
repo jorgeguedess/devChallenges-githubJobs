@@ -30,7 +30,7 @@ import {
 
 const Job = () => {
   const params = useParams<{ id: string }>();
-  const { data, loading, error } = useJobs();
+  const { data, loading, error, handleResetStates } = useJobs();
 
   const jobId = params.id !== undefined && +params.id;
   const job: IJob | null =
@@ -42,7 +42,7 @@ const Job = () => {
     return (
       <Container>
         <JobMenu>
-          <LinkBack to="/">
+          <LinkBack to="/" onClick={handleResetStates}>
             <BsArrowLeft />
             Back to search
           </LinkBack>

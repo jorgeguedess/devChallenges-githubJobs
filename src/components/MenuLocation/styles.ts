@@ -17,8 +17,13 @@ export const Title = styled.h2`
 `;
 
 export const LocationOptions = styled.div`
-  margin-top: 2.4rem;
+  @media (min-width: 376px) and (max-width: 1100px) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(35vw, 1fr));
+    margin-bottom: 3rem;
+  }
 
+  margin-top: 2.4rem;
   > label {
     margin-bottom: 1.6rem;
   }

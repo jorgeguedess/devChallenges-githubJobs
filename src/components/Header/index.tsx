@@ -2,34 +2,11 @@ import { useJobs } from "../../context/JobsContext";
 import { Container, Logo } from "./styles";
 
 const Header = () => {
-  const {
-    companie,
-    location,
-    optionsTime,
-    searchCompanie,
-    setCompanie,
-    setLocation,
-    setOptionsTime,
-    setSearchCompanie,
-  } = useJobs();
-
-  const handleClick = () => {
-    if (
-      companie !== "" ||
-      location !== "" ||
-      optionsTime.length > 0 ||
-      searchCompanie !== ""
-    ) {
-      setCompanie("");
-      setLocation("");
-      setOptionsTime([]);
-      setSearchCompanie("");
-    }
-  };
+  const { handleResetStates } = useJobs();
 
   return (
     <Container>
-      <Logo to="/" onClick={handleClick}>
+      <Logo to="/" onClick={handleResetStates}>
         <span>Github</span>Jobs
       </Logo>
     </Container>

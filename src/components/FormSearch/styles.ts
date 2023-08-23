@@ -38,7 +38,7 @@ export const Form = styled.form`
 
   > * {
     flex: 65;
-    @media (min-width: 37.6rem) {
+    @media (min-width: 376px) {
       flex: 80;
     }
   }
@@ -46,7 +46,7 @@ export const Form = styled.form`
 
 export const Button = styled.button`
   flex: 35;
-  @media (min-width: 37.6rem) {
+  @media (min-width: 376px) {
     flex: 20;
   }
 

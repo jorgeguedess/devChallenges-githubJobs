@@ -17,6 +17,7 @@ type IJobsContext = {
   data: IJob;
   loading: boolean;
   error: string | null;
+  handleResetStates: () => void;
 };
 
 const JobsContext = createContext<IJobsContext | null>(null);
@@ -36,6 +37,22 @@ export const JobsContextProvider = ({ children }: React.PropsWithChildren) => {
 
   const filterInputValue = (itemPrev: string, itemNext: string) => {
     return itemPrev.toLowerCase().includes(itemNext.toLowerCase());
+  };
+
+  const handleResetStates = () => {
+    if (
+      companie !== "" ||
+      location !== "" ||
+      optionsTime.length > 0 ||
+      searchCompanie !== "" ||
+      currentPage > 0
+    ) {
+      setCompanie("");
+      setLocation("");
+      setOptionsTime([]);
+      setSearchCompanie("");
+      setCurrentPage(0);
+    }
   };
 
   const BASE_URL = `https://himalayas.app/jobs/api`;
@@ -59,6 +76,7 @@ export const JobsContextProvider = ({ children }: React.PropsWithChildren) => {
         data,
         loading,
         error,
+        handleResetStates,
       }}
     >
       {children}
