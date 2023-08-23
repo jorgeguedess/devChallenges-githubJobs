@@ -3,26 +3,47 @@ import React from "react";
 import { Container, ButtonContainer, Button, Icon } from "./styles";
 
 import { GrFormNext, GrFormPrevious } from "../../styles/Icons";
+import { useJobs } from "../../context/JobsContext";
 import { IJob } from "../../hooks/useFetch";
 
 type SlideProps = {
   companies: IJob[];
   cardsPerPage: number;
-  currentPage: number;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const Slide: React.FC<SlideProps> = ({
-  cardsPerPage,
-  currentPage,
-  setCurrentPage,
-  companies,
-}) => {
-  const totalCards = companies.reduce((total) => total + 1, 0);
-  const totalPages = Math.ceil(totalCards / cardsPerPage);
+const Slide: React.FC<SlideProps> = ({ companies, cardsPerPage }) => {
+  const { currentPage, setCurrentPage } = useJobs();
 
-  const handleClick = (page: number) => {
-    setCurrentPage(page);
+  const totalCards = companies.reduce((total) => total + 1, 0);
+  const totalPages = Math.ceil(totalCards / cardsPerPage) - 1;
+  const visiblePageButtons = 5;
+
+  const renderPageButtons = () => {
+    const pageButtons = [];
+
+    let startPage = Math.max(
+      0,
+      currentPage - Math.floor(visiblePageButtons / 2)
+    );
+    const endPage = Math.min(totalPages, startPage + visiblePageButtons - 1);
+
+    if (endPage - startPage < visiblePageButtons - 1) {
+      startPage = Math.max(1, endPage - visiblePageButtons + 1);
+    }
+
+    for (let indice = startPage; indice <= endPage; indice++) {
+      pageButtons.push(
+        <Button
+          key={indice}
+          active={indice === currentPage}
+          onClick={() => setCurrentPage(indice)}
+        >
+          {indice + 1}
+        </Button>
+      );
+    }
+
+    return pageButtons;
   };
 
   const handlePrevClick = () => {
@@ -31,13 +52,11 @@ const Slide: React.FC<SlideProps> = ({
   };
 
   const handleNextClick = () => {
-    if (currentPage >= totalPages - 1) return;
+    if (currentPage >= totalPages) return;
     setCurrentPage((nextIndex) => nextIndex + 1);
     return;
   };
 
-  if (companies.length === 0)
-    return <p>We were unable to find companies with this search.</p>;
   return (
     <Container>
       <ButtonContainer>
@@ -46,15 +65,7 @@ const Slide: React.FC<SlideProps> = ({
             <GrFormPrevious />
           </Icon>
         </Button>
-        {Array.from({ length: totalPages }).map((_, index) => (
-          <Button
-            key={index}
-            onClick={() => handleClick(index)}
-            active={index === currentPage}
-          >
-            {index + 1}
-          </Button>
-        ))}
+        {renderPageButtons()}
         <Button onClick={handleNextClick}>
           <Icon>
             <GrFormNext />

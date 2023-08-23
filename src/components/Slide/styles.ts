@@ -4,12 +4,12 @@ import styled from "styled-components";
 export const Container = styled.div`
   width: 100%;
   margin-top: 3.2rem;
-
-  overflow-x: auto;
 `;
 
 export const ButtonContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: flex-end;
   gap: 1.2rem;
 `;

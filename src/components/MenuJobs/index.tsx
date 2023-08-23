@@ -1,20 +1,15 @@
 import React from "react";
 import Card from "../Card";
-import Slide from "../Slide";
 import { useJobs } from "../../context/JobsContext";
 
 import { IJob } from "../../hooks/useFetch";
+import Slide from "../Slide";
 
 const MenuJobs: React.FC = () => {
+  const { location, searchCompanie, filterInputValue, currentPage, data } =
+    useJobs();
+
   const cardsPerPage = 4;
-  const {
-    location,
-    searchCompanie,
-    filterInputValue,
-    currentPage,
-    setCurrentPage,
-    data,
-  } = useJobs();
 
   const companies: IJob[] = data?.filter((companie: IJob) => {
     if (!location && !searchCompanie) return true;
@@ -43,12 +38,7 @@ const MenuJobs: React.FC = () => {
           .map((companie, index) => (
             <Card key={`${companie.title} + + ${index}`} {...companie} />
           ))}
-      <Slide
-        cardsPerPage={cardsPerPage}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        companies={companies}
-      />
+      <Slide cardsPerPage={cardsPerPage} companies={companies} />
     </div>
   );
 };
